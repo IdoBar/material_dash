@@ -1,0 +1,179 @@
+main_tab <- tabItem(
+  tabName = "dashboard",
+  
+  br(),
+
+  column(
+    width = 12,
+    align = "left",
+    br(),
+    h1("Material Information")
+  ),
+
+  br(),
+  
+  fluidRow(
+    # element
+    column(
+      width = 4 ,
+      box(
+        width = 12,
+        height=465, # glue::glue("data/A_rabiei_pathotypes_2013-{max(patho_table$Year)}.xlsx")
+        title = HTML(glue::glue("Map of collected <i>A. rabiei</i> isolates (2020-{max(patho_table$Year)})")),
+        status = def_box_col,
+        solidHeader = FALSE,
+        collapsible = TRUE,
+        sidebar = boxSidebar(
+          id = "mapsidebar",
+          width = 30,
+          startOpen = FALSE,
+          # prettyCheckboxGroup(
+          #   inputId = "checkmaplayers",
+          #   label = "Choose visibile layers",
+          #   thick = TRUE,
+          #   choices = c("agroecological zones"="zones", "rainfall"="rain",
+          #               "soil"= "soil","climate"= "climate"),
+          #   animation = "pulse",
+          # icon = icon("check"),
+          #   status = def_box_col
+          # ),
+          h4("Map legend"),
+          img(src="map_legend_compact.png", width="100%")
+          # verbatimTextOutput("value"),
+          # sliderInput(
+          #   "slider_boxsidebar",
+          #   "Number of observations:",
+          #   min = 0,
+          #   max = 1000,
+          #   value = 500
+          # )
+        ), leafletOutput("isolateMap", height = 465)
+      )
+    ),
+    column(
+      width = 4,
+      height=650,
+      box(
+        width = 12,
+        title = "Agroecological zone zummary",
+        status = def_box_col,
+        tableOutput("zoneSummary")
+        # footer = "Lecturer (Bioscience), Griffith University"
+      )
+    )
+  ),
+  br(),
+  # h2("List of Input Events"), # for debugging of inputs
+  # verbatimTextOutput( outputId = "map_inputs"),
+  fluidRow(
+    # element
+    column(
+      width = 6,
+      box(
+        width = 12,
+        title = "Frequency of highly aggressive isolates",
+        status = def_box_col,
+        sidebar = boxSidebar(
+          id = "plot1sidebar",
+          width = 25,
+          startOpen = FALSE,
+          icon = shiny::icon("save", lib="glyphicon"),
+          awesomeRadio(
+            inputId = "plotformat",
+            label = "File format", 
+            choices = c("PDF", "PNG", "JPEG"),
+            selected = "PDF",
+            status = def_box_col,
+          ),
+          numericInput(
+            inputId = "plotWidth",
+            label = "Plot width (in)",
+            value=9,
+            min = 4,
+            max = 30,
+            step = NA,
+            width = 100 
+          ),
+          numericInput(
+            inputId = "plotHeight",
+            label = "Plot height (in)",
+            value=6,
+            min = 4,
+            max = 30,
+            step = NA,
+            width = 100
+          ),
+          downloadButton(
+            outputId="downloadPlot1",
+            label = "Download",
+            style = "simple", # simple, bordered, minimal, stretch, jelly, gradient, fill, material-circle, material-flat, pill, float, unite
+            color = def_box_col,
+            size = "sm",
+            # block = FALSE,
+            # no_outline = TRUE,
+            class = "btn btn-primary pr-0"
+          )),
+        plotOutput("host_freq")
+      )
+    ),
+    column(
+      width = 6,
+      box(
+        width = 12,
+        title = "Yearly pathogenicity groups frequencies",
+        status = def_box_col,
+        sidebar = boxSidebar(
+          id = "plot2sidebar",
+          width = 25,
+          startOpen = FALSE,
+          icon = shiny::icon("save", lib="glyphicon"),
+          awesomeRadio(
+            inputId = "plot2format",
+            label = "File format", 
+            choices = c("PDF", "PNG", "JPEG"),
+            selected = "PDF",
+            status = def_box_col
+           ),
+          numericInput(
+            inputId = "plot2Width",
+            label = "Plot width (in)",
+            value=12,
+            min = 4,
+            max = 30,
+            step = NA,
+            width = 100
+          ),
+          numericInput(
+            inputId = "plot2Height",
+            label = "Plot height (in)",
+            value=6,
+            min = 4,
+            max = 30,
+            step = NA,
+            width = 100
+          ),
+          downloadButton(
+            outputId="downloadPlot2",
+            label = "Download",
+            style = "simple", # simple, bordered, minimal, stretch, jelly, gradient, fill, material-circle, material-flat, pill, float, unite
+            color = def_box_col,
+            size = "sm",
+            # block = FALSE,
+            # no_outline = TRUE,
+            class = "btn btn-primary pr-0"
+          )),
+        tags$head(tags$style(".btn-primary:hover{color: white !important;}
+                             .btn-primary{font-size: 16px; color: white !important;}")),
+        plotOutput("patho_plot")
+      )
+    )# ,
+    # column(
+    #   width = 4,
+    #   box(
+    #     width = 12,
+    #     title = "Pathogenicity groups classification",
+    #     status = def_box_col
+    #   )
+    # )
+  ) 
+)
