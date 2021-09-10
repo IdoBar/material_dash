@@ -22,22 +22,25 @@ data_tab <- tabItem(
         solidHeader = FALSE, 
         collapsible = TRUE,
         DTOutput("materialDT")
-          # sliderInput(
-          #   "slider_boxsidebar", 
-          #   "Number of observations:",
-          #   min = 0, 
-          #   max = 1000, 
-          #   value = 500
-          # )
         ),
       box(
         width = 3,
-        height=400, 
+      #  height=300, 
         title = HTML("Selected material prices"), 
         status = def_box_col, 
         solidHeader = FALSE, 
         collapsible = TRUE,
-        plotOutput("price_plot"),
+        plotOutput("price_plot")
+      )),
+  fluidRow(
+      box(
+        width = 5,
+        #height=400, 
+        title = HTML("Inputs"), 
+        status = def_box_col, 
+        solidHeader = FALSE, 
+        collapsible = TRUE,
+       # plotOutput("price_plot"),
         verbatimTextOutput("inputs")
       )
         
