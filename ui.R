@@ -5,8 +5,8 @@ dashboardPage(
     controlbarIcon = icon(name="info-circle"), # lib = "glyphicon",
     fixed = TRUE,
     title = tagList(
-      span(class = "logo-lg", "ShinyDashboardPlus"), 
-      img(src = "ShinyDashboardPlus_FINAL.svg")), # 
+      span(class = "logo-lg", "MaterialPrices"), 
+      img(src = "Giraffe_logo.svg")), # ShinyDashboardPlus_FINAL.svg
     #enable_rightsidebar = TRUE,
    # rightSidebarIcon = "gears", # gears
     leftUi = tagList(
