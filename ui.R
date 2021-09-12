@@ -21,11 +21,18 @@ dashboardPage(skin = "yellow",
        # badgeLabel = "new", 
        # badgeColor = "green",
         icon = icon(lib = "glyphicon", name = "home")
+      ),
+      menuItem(
+        text = "Items by supplier", 
+        tabName = "Suppliers",
+        # badgeLabel = "new", 
+        # badgeColor = "green",
+        icon = icon( name = "tags")
       )#,
-    ),
+    )
     # hr(),
     # skin selector
-    p(hr(),skinSelector(), style="margin-bottom:25cm")
+    # p(hr(),skinSelector(), style="margin-bottom:25cm")
   ),
   
   controlbar = dashboardControlbar(
@@ -87,7 +94,8 @@ dashboardPage(skin = "yellow",
     # All tabs
     tabItems(
       # main_tab,
-      data_tab#,
+      data_tab,
+      item_supplier_tab
     )
   ),
   title = HTML("ESTI-MATE"),
