@@ -13,7 +13,7 @@ dashboardPage(skin = "yellow",
    # userOutput("user")
   ),
   dashboardSidebar(
-    id = "mysidebar",
+    id = "mainsidebar",
     sidebarMenu(
       menuItem(
         text = "Materials", 
@@ -23,7 +23,15 @@ dashboardPage(skin = "yellow",
         icon = icon(lib = "glyphicon", name = "home")
       )#,
     ),
-    # hr(),
+    hr(),
+    pickerInput(
+      inputId = "filtGroups",
+      label = "Filter groups", 
+      choices = unique(readxl::read_excel("data/Dataset.xlsx")$CC_Group_Name),
+      options = list(
+        `selected-text-format` = "count > 3"), 
+      multiple = TRUE
+    ),
     # skin selector
     p(hr(),skinSelector(), style="margin-bottom:25cm")
   ),

@@ -4,9 +4,9 @@ devtools::source_gist("7f63547158ecdbacf31b54a58af0d1cc", filename = "util.R")
 # load/install packages
 #install.packages("htmltools") #requires version 0.5.1 
 # devtools::install_github("RinteRface/shinydashboardPlus")
-pacman::p_load(tidyverse, scales, janitor, paletteer, 
+pacman::p_load(tidyverse, scales, janitor, paletteer, tidyquant,
                ggrepel, here,DT, leaflet, ggmap, glue, 
-               shiny, shinydashboard, shinyAce, 
+               shiny, shinydashboard, shinyAce, ggdist,
                shinyWidgets, shinyEffects, shinyjqui, shinyjs,
                kableExtra, formattable)
 

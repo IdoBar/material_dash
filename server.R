@@ -20,14 +20,20 @@ function(input, output){
 # PoC_data %>% count(Cost_Centre) %>% filter(n>1)
  
   #Sum per item id for calculating mean and range.
-  material_table <- PoC_data %>% group_by(CC_Group_Name,Item_Description) %>% 
-    summarise(Number_of_Suppliers = n(), Mean_Price_AUD = mean(Rate, na.rm=TRUE)) %>% 
-    ungroup()
+  material_table <- reactive({
+    mat_table <- PoC_data %>% 
+    group_by(CC_Group_Name,Item_Description) %>% 
+      summarise(Number_of_Suppliers = n(), 
+                Mean_Price_AUD = mean(Rate, na.rm=TRUE)) %>% 
+      ungroup()
+    if (is.null(input$filtGroups)) return(mat_table)
+    mat_table %>% filter(CC_Group_Name %in% input$filtGroups)
+  })
   
   #Prepare material table for web
   output$materialDT <- renderDT(server = FALSE,{
-    DT::datatable(material_table ,
-                  colnames = gsub("_", " ", names(material_table)), rownames = FALSE, #formatting headers
+    DT::datatable(material_table() ,
+                  colnames = gsub("_", " ", names(material_table())), rownames = FALSE, #formatting headers
                   style = 'bootstrap', class = 'table-bordered table-condensed',
                   extensions = c('Buttons','Scroller'),
                   options = list(initComplete = htmlwidgets::JS(
@@ -46,18 +52,26 @@ function(input, output){
     # selected_row <- ifelse(is.null(input$materialDT_rows_selected), 1, 
     #                        as.vector(input$materialDT_rows_selected))
     selected_row <- input$materialDT_rows_selected
-    selected_material <- material_table$Item_Description[selected_row] # 
+    selected_material <- material_table()$Item_Description[selected_row] # 
     PoC_data %>% filter(Item_Description %in% selected_material)
   })
   material_price_dist <- function(){
     if (nrow(material_plot_data())==0) return(NULL)
-    ggplot(material_plot_data(), aes(x = Rate)) + # , fill = Item_Description
-      geom_histogram(fill = "lightskyblue") + facet_wrap(~Item_Description, ncol = 1) +
-      labs(y="Count", x="Item Price (AUD)") +
-      scale_y_continuous(breaks = int_breaks, limits = int_limits) + 
+    ggplot(material_plot_data(), 
+           aes(x = Item_Description, y = Rate, fill = Item_Description)) + # 
+      stat_halfeye(
+        adjust = 0.5,
+        justification = -.2,
+        .width = 0,
+        point_colour = NA) + 
+      geom_boxplot(width = .12, outlier.color = NA, alpha = 0.5) +
+      labs(y="Item Price (AUD)", x="Item") +
+     # scale_y_continuous(breaks = int_breaks, limits = int_limits) + 
       # scale_fill_paletteer_d("awtools::a_palette") + 
       guides(fill="none") + 
-      clean_theme$theme
+      scale_fill_tq() + theme_tq() +
+      coord_flip()
+      # clean_theme$theme
       #      coord_flip() + clean_theme$theme
   }
   

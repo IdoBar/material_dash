@@ -21,7 +21,21 @@ data_tab <- tabItem(
         status = def_box_col, 
         solidHeader = FALSE, 
         collapsible = TRUE,
-        DTOutput("materialDT")
+        DTOutput("materialDT"),
+        sidebar = boxSidebar(
+          id = "matTableSidebar",
+          width = 30,
+          startOpen = FALSE,
+          pickerInput(
+            inputId = "filtGroups",
+            label = "Filter groups", 
+            choices = unique(readxl::read_excel("data/Dataset.xlsx")$CC_Group_Name),
+            options = list(
+              `actions-box` = TRUE,
+              `selected-text-format` = "count > 2"), 
+            multiple = TRUE
+          )
+        )
         ),
       box(
         width = 4,
