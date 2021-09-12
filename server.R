@@ -1,32 +1,43 @@
 # TODO
 # Map of suppliers
 # Prices trend plot, better handling of multiple selections
+# Future: location
 
+# geodetails <- geocode(PoC_data$Supplier_Location , output = "latlon", messaging=TRUE) %>% 
+#   mutate(Supplier_Location = PoC_data$Supplier_Location) %>% 
+#   write_xlsx(., "data/PoC_Data.xlsx", sheet = "supp_coordinates")
+# geodetails <- readxl::read_excel("data/PoC_Data.xlsx", sheet = "supp_coordinates")
+
+
+#  # print list of input events (very useful for debugging the app, remove before deployment)
 function(input, output){
- #  # print list of input events (very useful for debugging the app, remove before deployment)
   output$inputs <-
     renderPrint({reactiveValuesToList(input)})
   # materials table ####
-  PoC_data <- readxl::read_excel("data/PoC_Data.xlsx") 
+  PoC_data <- readxl::read_excel("data/Dataset.xlsx") 
   
-  # geodetails <- geocode(PoC_data$Supplier_Location , output = "latlon", messaging=TRUE) %>% 
-  #   mutate(Supplier_Location = PoC_data$Supplier_Location) %>% 
-  #   write_xlsx(., "data/PoC_Data.xlsx", sheet = "supp_coordinates")
-  geodetails <- readxl::read_excel("data/PoC_Data.xlsx", sheet = "supp_coordinates")
-  
-  material_table <- PoC_data %>% group_by(Item_ID, Item_Description) %>% 
-    summarise(Number_of_Suppliers = n(), Mean_Price_AUD = mean(Item_Price_AUD, na.rm=TRUE)) %>% 
+  #check
+# PoC_data %>% count(Cost_Centre) %>% filter(n>1)
+ 
+  #Sum per item id for calculating mean and range.
+  material_table <- PoC_data %>% group_by(CC_Group_Name,Item_Description) %>% 
+    summarise(Number_of_Suppliers = n(), Mean_Price_AUD = mean(Rate, na.rm=TRUE)) %>% 
     ungroup()
   
-  
+  #Prepare material table for web
   output$materialDT <- renderDT(server = FALSE,{
     DT::datatable(material_table ,
-                  colnames = gsub("_", " ", names(material_table)), rownames = FALSE,
+                  colnames = gsub("_", " ", names(material_table)), rownames = FALSE, #formatting headers
                   style = 'bootstrap', class = 'table-bordered table-condensed',
                   extensions = c('Buttons','Scroller'),
-                  #caption = htmltools::HTML(tab_caption),#
-                  options = list(dom = 'ftSiB',
+                  options = list(initComplete = htmlwidgets::JS(
+                            "function(settings, json) {",
+                            "$(this.api().table().container()).css({'font-size': '85%'});", "}"),
+                    dom = 'ftSiB',
+                    sScrollXInner  = "60%",
+                    scrollX = TRUE,
                                  buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
+                    columnDefs = list(list(width = '5%', targets = c(2))),
                                  deferRender = TRUE, scrollY = 500,  scroller = TRUE))
   })
 
@@ -40,7 +51,7 @@ function(input, output){
   })
   material_price_dist <- function(){
     if (nrow(material_plot_data())==0) return(NULL)
-    ggplot(material_plot_data(), aes(x = Item_Price_AUD)) + # , fill = Item_Description
+    ggplot(material_plot_data(), aes(x = Rate)) + # , fill = Item_Description
       geom_histogram(fill = "lightskyblue") + facet_wrap(~Item_Description, ncol = 1) +
       labs(y="Count", x="Item Price (AUD)") +
       scale_y_continuous(breaks = int_breaks, limits = int_limits) + 

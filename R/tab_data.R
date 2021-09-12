@@ -15,7 +15,7 @@ data_tab <- tabItem(
   fluidRow(
     # element
       box(
-        width = 5,
+        width = 8,
         height=400, 
         title = HTML("List of available materials"), 
         status = def_box_col, 
@@ -24,7 +24,7 @@ data_tab <- tabItem(
         DTOutput("materialDT")
         ),
       box(
-        width = 3,
+        width = 4,
       #  height=300, 
         title = HTML("Selected material prices"), 
         status = def_box_col, 

@@ -1,12 +1,12 @@
-dashboardPage(
+dashboardPage(skin = "yellow",
   # md = TRUE,
   # skin = "midnight",
   dashboardHeader(
     controlbarIcon = icon(name="info-circle"), # lib = "glyphicon",
     fixed = TRUE,
     title = tagList(
-      span(class = "logo-lg", "MaterialPrices"), 
-      img(src = "Giraffe_logo.svg")), # ShinyDashboardPlus_FINAL.svg
+      span(class = "logo-lg", "ESTI-MATE"), 
+      img(src = "Estimate_Logo_Small.svg")), 
     #enable_rightsidebar = TRUE,
    # rightSidebarIcon = "gears", # gears
     leftUi = tagList()#,
@@ -29,7 +29,7 @@ dashboardPage(
   ),
   
   controlbar = dashboardControlbar(
-    skin = "light", #  "light", 
+    skin = "orange", #  "light", 
  #   icon = icon("info-circle"),
 
     controlbarMenu(
@@ -90,7 +90,7 @@ dashboardPage(
       data_tab#,
     )
   ),
-  title = HTML("Materials Dashboard"),
+  title = HTML("ESTI-MATE"),
 
   footer = dashboardFooter(
     left = HTML("By Adi Gafni, Ido Bar..."),

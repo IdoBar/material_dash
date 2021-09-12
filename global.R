@@ -8,7 +8,8 @@ pacman::p_load(tidyverse, scales, janitor, paletteer,
                ggrepel, here,DT, leaflet, ggmap, glue, 
                shiny, shinydashboard, shinyAce, 
                shinyWidgets, shinyEffects, shinyjqui, shinyjs,
-               kableExtra)
+               kableExtra, formattable)
+
 #c('htmltools', 'scales', 'janitor', 'paletteer', 'ggrepel', 'here','DT', 'shiny', 'shinydashboard', 'shinyAce', 'shinyWidgets', 'shinyEffects', 'shinyjqui', 'kableExtra', 'ISOweek', 'rgdal','sf', 'leaflet', 'leafem','raster', 'readxl')
 
 pacman::p_load_gh("Mikata-Project/ggthemr")
@@ -17,5 +18,5 @@ pacman::p_load_gh("RinteRface/shinydashboardPlus")
 clean_theme <- ggthemr(text_size = 18, palette = 'fresh', layout = "clean", 
                        set_theme = FALSE,
                        spacing = 0.5)
-def_box_col <- "primary"
+def_box_col <- "orange"
 
