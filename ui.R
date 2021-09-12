@@ -21,19 +21,30 @@ dashboardPage(skin = "yellow",
        # badgeLabel = "new", 
        # badgeColor = "green",
         icon = icon(lib = "glyphicon", name = "home")
+      ),
+      menuItem(
+        text = "Items by supplier", 
+        tabName = "Suppliers",
+        # badgeLabel = "new", 
+        # badgeColor = "green",
+        icon = icon( name = "tags")
       )#,
     ),
     hr(),
     pickerInput(
       inputId = "filtGroups",
       label = "Filter groups", 
-      choices = unique(readxl::read_excel("data/Dataset.xlsx")$CC_Group_Name),
+      choices = readxl::read_excel("data/Dataset.xlsx") %>% select(CC_Group_Name) %>% arrange(CC_Group_Name) %>% distinct() %>% .$CC_Group_Name,
       options = list(
         `selected-text-format` = "count > 3"), 
       multiple = TRUE
-    ),
+    )
+
+    # )
+    # hr(),
+
     # skin selector
-    p(hr(),skinSelector(), style="margin-bottom:25cm")
+    # p(hr(),skinSelector(), style="margin-bottom:25cm")
   ),
   
   controlbar = dashboardControlbar(
@@ -95,7 +106,8 @@ dashboardPage(skin = "yellow",
     # All tabs
     tabItems(
       # main_tab,
-      data_tab#,
+      data_tab,
+      item_supplier_tab
     )
   ),
   title = HTML("ESTI-MATE"),
