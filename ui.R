@@ -21,24 +21,26 @@ dashboardPage(skin = "yellow",
        # badgeLabel = "new", 
        # badgeColor = "green",
         icon = icon(lib = "glyphicon", name = "home")
-      ),
-      menuItem(
-        text = "Items by supplier", 
-        tabName = "Suppliers",
-        # badgeLabel = "new", 
-        # badgeColor = "green",
-        icon = icon( name = "tags")
-      )#,
+      ) # menuItem,
+      # menuItem(
+      #   text = "Items by supplier", 
+      #   tabName = "Suppliers",
+      #   # badgeLabel = "new", 
+      #   # badgeColor = "green",
+      #   icon = icon( name = "tags")
+      # ) # menuItem,
     ),
-    hr(),
-    pickerInput(
-      inputId = "filtGroups",
-      label = "Filter groups", 
-      choices = readxl::read_excel("data/Dataset.xlsx") %>% select(CC_Group_Name) %>% arrange(CC_Group_Name) %>% distinct() %>% .$CC_Group_Name,
-      options = list(
-        `selected-text-format` = "count > 3"), 
-      multiple = TRUE
-    )
+    hr()#,
+    # pickerInput(
+    #   inputId = "filtGroups",
+    #   label = "Filter groups", 
+    #   choices = readxl::read_excel("data/Dataset.xlsx") %>% select(CC_Group_Name) %>% 
+    #     arrange(CC_Group_Name) %>% distinct() %>% .$CC_Group_Name,
+    #   options = list(
+    #     `actions-box` = TRUE,
+    #     `selected-text-format` = "count > 3"), 
+    #   multiple = TRUE
+    # )
 
     # )
     # hr(),
@@ -105,9 +107,9 @@ dashboardPage(skin = "yellow",
     
     # All tabs
     tabItems(
-      # main_tab,
-      data_tab,
-      item_supplier_tab
+      main_tab# ,
+      # data_tab,
+      # item_supplier_tab
     )
   ),
   title = HTML("ESTI-MATE"),
