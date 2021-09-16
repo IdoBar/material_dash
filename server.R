@@ -45,7 +45,7 @@ function(input, output){
   PoC_Supplier <- readxl::read_excel("data/Dataset.xlsx","Supplier") %>% 
     clean_names() %>% 
     mutate(primary_contact_work_email = "admin@supplier.com",
-           sustainability_rating = sample(1:5, nrow(PoC_Supplier), 
+           sustainability_rating = sample(1:5, nrow(.), 
                                           replace = TRUE))
   
   #  Supplier_Location <- geocode(glue("{PoC_Supplier$preferred_name}, Australia") , 
@@ -146,7 +146,7 @@ function(input, output){
       glue("${material_plot_data()$Rate_min}"),
       "Minimum price",
       icon = icon(name = "scale-unbalanced"),
-      color = "teal"
+      color = "light-blue"
     ) # valueBox
   }) # renderValueBox
   
